@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contoh Algoritma Pencarian dan Pengurutan</title>
+</head>
+<body>
+    <h1>Contoh Algoritma Pencarian dan Pengurutan</h1>
+    
+    <h2>Contoh Kode Algoritma Pencarian Biner (Binary Search)</h2>
+    <pre><code>
+# Fungsi Binary Search
+def binary_search(arr, x):
+    left = 0
+    right = len(arr) - 1
+
+    while left <= right:
+        mid = left + (right - left) // 2
+
+        # Jika x ditemukan di tengah
+        if arr[mid] == x:
+            return mid
+        # Jika x lebih kecil, cari di sebelah kiri
+        elif arr[mid] > x:
+            right = mid - 1
+        # Jika x lebih besar, cari di sebelah kanan
+        else:
+            left = mid + 1
+
+    # Jika x tidak ditemukan
+    return -1
+
+# Dataset yang sudah terurut
+arr = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19]
+x = 7
+
+# Mencari elemen
+result = binary_search(arr, x)
+if result != -1:
+    print(f"Elemen {x} ditemukan pada indeks {result}.")
+else:
+    print(f"Elemen {x} tidak ditemukan.")
+    </code></pre>
+
+    <h2>Contoh Kode Algoritma Pencarian Linear (Linear Search)</h2>
+    <pre><code>
+# Fungsi Linear Search
+def linear_search(arr, x):
+    for i in range(len(arr)):
+        if arr[i] == x:
+            return i
+    return -1  # Jika elemen tidak ditemukan
+
+# Dataset yang belum terurut
+arr = [10, 2, 33, 4, 50, 18, 8, 60]
+x = 50
+
+# Mencari elemen
+result = linear_search(arr, x)
+if result != -1:
+    print(f"Elemen {x} ditemukan pada indeks {result}.")
+else:
+    print(f"Elemen {x} tidak ditemukan.")
+    </code></pre>
+
+    <h2>Contoh Kode Algoritma Pengurutan Merge Sort</h2>
+    <pre><code>
+# Struktur untuk menyimpan data pesanan
+class Order:
+    def __init__(self, orderID, pickupLocation, dropLocation, orderTime):
+        self.orderID = orderID
+        self.pickupLocation = pickupLocation
+        self.dropLocation = dropLocation
+        self.orderTime = orderTime
+
+# Fungsi untuk menggabungkan dua bagian yang sudah terurut
+def merge(orders, left, right):
+    if left >= right:
+        return
+    
+    mid = (left + right) // 2
+    # Mengurutkan dua bagian
+    merge(orders, left, mid)
+    merge(orders, mid + 1, right)
+    
+    # Menggabungkan dua bagian yang sudah terurut
+    temp = []
+    i = left
+    j = mid + 1
+    
+    while i <= mid and j <= right:
+        if orders[i].orderTime <= orders[j].orderTime:
+            temp.append(orders[i])
+            i += 1
+        else:
+            temp.append(orders[j])
+            j += 1
+    
+    # Menyalin sisa elemen dari kiri atau kanan
+    while i <= mid:
+        temp.append(orders[i])
+        i += 1
+    
+    while j <= right:
+        temp.append(orders[j])
+        j += 1
+    
+    # Menyalin hasil penggabungan kembali ke dalam array orders
+    for i in range(len(temp)):
+        orders[left + i] = temp[i]
+
+# Fungsi untuk mengurutkan data pesanan menggunakan Merge Sort
+def mergeSort(orders):
+    merge(orders, 0, len(orders) - 1)
+
+# Fungsi untuk menampilkan data pesanan
+def displayOrders(orders):
+    print(f"{'ID Pesanan':<12}{'Lokasi Pengambilan':<20}{'Lokasi Tujuan':<20}{'Waktu Pemesanan'}")
+    for order in orders:
+        print(f"{order.orderID:<12}{order.pickupLocation:<20}{order.dropLocation:<20}{order.orderTime}")
+
+# Data pesanan
+orders = [
+    Order(1, "Jakarta", "Bandung", "12:30:00"),
+    Order(2, "Surabaya", "Bali", "09:15:00"),
+    Order(3, "Yogyakarta", "Semarang", "14:00:00"),
+    Order(4, "Bandung", "Jakarta", "10:45:00"),
+    Order(5, "Bali", "Surabaya", "13:00:00")
+]
+
+print("Data Pesanan Sebelum Pengurutan:")
+displayOrders(orders)
+
+# Mengurutkan data pesanan berdasarkan waktu pemesanan
+mergeSort(orders)
+
+print("\nData Pesanan Setelah Pengurutan Berdasarkan Waktu Pemesanan:")
+displayOrders(orders)
+    </code></pre>
+</body>
+</html>
